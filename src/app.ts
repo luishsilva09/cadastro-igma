@@ -1,6 +1,7 @@
 import cors from "cors";
 import express, { json } from "express";
 import dotenv from "dotenv";
+import userController from "./controllers/userController";
 
 class App {
   public express: express.Application;
@@ -17,7 +18,7 @@ class App {
   }
 
   routes() {
-    // this.express.use();
+    this.express.use(userController.router);
   }
 
   listen(port: number) {
