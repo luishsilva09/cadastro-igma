@@ -1,3 +1,7 @@
+import { Request, Response } from "express";
+import { prisma } from "../dbStrategy/database";
+
+class UserService {
   public async create(req: Request, res: Response): Promise<Response> {
     //formatando cpf
     const formatCpf: string = req.body.cpf.replace(/\D/g, "");
@@ -16,6 +20,12 @@
       return res.status(201).send("OK");
     }
   }
+
+  public async findAll(req: Request, res: Response): Promise<Response> {
+    const result = await prisma.user.findMany();
+    return res.json(result);
+  }
+
   public async findByCpf(req: Request, res: Response): Promise<Response> {
     const formatCpf: string = req.params.cpf.replace(/\D/g, "");
 
@@ -87,3 +97,6 @@
     if (result === null) return false;
     return true;
   }
+}
+
+export default new UserService();
