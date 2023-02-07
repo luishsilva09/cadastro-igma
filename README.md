@@ -65,8 +65,15 @@ Response:
 ### Buscar todos clientes:
 
 ```http
-    POST /allUsers
+    POST /allUsers?page=1&size=5
 ```
+
+| Query  | Type     | Description             |
+| ------ | -------- | ----------------------- |
+| `page` | `string` | pagina de busca         |
+| `size` | `string` | quantidade para retorno |
+
+`size por padrão 5`
 
 Response:
 
@@ -75,6 +82,11 @@ Response:
   {
     "name": "luis",
     "cpf": "42704569819",
+    "birthDate": "21/2"
+  },
+  {
+    "name": "luis",
+    "cpf": "42704569812",
     "birthDate": "21/2"
   }
 ]
@@ -106,17 +118,40 @@ To run integration test:
     npm run test:integration
 ```
 
-# Run Locally
+# Rodando no Docker
 
-Clone the project:
+Para que não tenha nem um erro de compatibilidade da aplicação recomendo usar o docker para melhor funcionamento.
+
+Utilize em seu .env
 
 ```bash
 
-  git clone https://github.com/luishsilva09/LinkAi-back.git
+PORT=4000 //porta de uso da aplicação
+
+DATABASE_URL=postgres://postgres:postgres@db:5432/cadastro-igma
+
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=cadastro-igma
+```
+
+Subindo a aplicação:
+
+```bash
+  docker-compose up --build
+```
+
+# Rodar localmente
+
+Copie o projeto:
+
+```bash
+
+  git clone https://github.com/luishsilva09/cadastro-igma.git
 
 ```
 
-Install dependencies:
+Instale as dependencias:
 
 ```bash
 
@@ -124,7 +159,7 @@ Install dependencies:
 
 ```
 
-Configuration and create database:
+Configura e cria o banco de dados:
 
 ```bash
 
@@ -132,30 +167,21 @@ Configuration and create database:
 
 ```
 
-To run dev mode:
+Para rodar como desenvolvedor:
 
 ```bash
     npm run dev
 ```
 
-To run:
+# Variaveis
 
-```bash
-    npm build
-    npm start
-```
-
-# Environment Variables
-
-To run this project in local, you will need to add the following environment variables to your .env file
+Para rodar esse projeto vão ser necessarias essas variaveis no .env
 
 `DATABASE_URL = postgres://UserName:Password@Hostname:5432/DatabaseName`
 
 `PORT = number #recommended:4000`
 
-`NODE_ENV = test` just use this for run test with your frontend
-
-# Authors
+# Autor
 
 ​
 
