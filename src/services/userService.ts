@@ -1,3 +1,16 @@
+  public async findByCpf(req: Request, res: Response): Promise<Response> {
+    const formatCpf: string = req.params.cpf.replace(/\D/g, "");
+
+    if (!(await UserService.existUser(formatCpf))) {
+      return res.status(404).send("Não encontrado");
+    } else {
+      const result = await prisma.user.findUnique({
+        where: { cpf: formatCpf },
+      });
+      return res.json(result);
+    }
+  }
+
   static validCpf(cpf: string) {
     // cpf invalidos conhecidos
     const invalidCpfs = [
