@@ -9,7 +9,9 @@ class UserController {
   }
 
   initRoutes() {
-    this.router.get("/users", userService.index);
+    this.router.post("/users", userService.create);
+    this.router.get("/users/:cpf", userService.findByCpf);
+    this.router.get("/allUsers", userService.findAll);
   }
 }
 
