@@ -1,3 +1,21 @@
+  public async create(req: Request, res: Response): Promise<Response> {
+    //formatando cpf
+    const formatCpf: string = req.body.cpf.replace(/\D/g, "");
+    //validando se já existe cadastro
+    if (await UserService.existUser(formatCpf)) {
+      return res.status(422).send("invalido");
+    }
+    //validando cpf
+    if (!UserService.validCpf(formatCpf)) {
+      return res.status(422).send("CPF invalido");
+    } else {
+      //cadastro do usuario
+      await prisma.user.create({
+        data: { ...req.body, cpf: formatCpf },
+      });
+      return res.status(201).send("OK");
+    }
+  }
   public async findByCpf(req: Request, res: Response): Promise<Response> {
     const formatCpf: string = req.params.cpf.replace(/\D/g, "");
 
