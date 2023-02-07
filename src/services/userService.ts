@@ -22,7 +22,13 @@ class UserService {
   }
 
   public async findAll(req: Request, res: Response): Promise<Response> {
-    const result = await prisma.user.findMany();
+    const page = Number(req.query.page) || 1;
+    const size = Number(req.query.size) || 5;
+
+    const result = await prisma.user.findMany({
+      take: size,
+      skip: (page - 1) * size,
+    });
     return res.json(result);
   }
 
