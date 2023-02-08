@@ -1,51 +1,52 @@
-import { Request, Response } from "express";
-import { prisma } from "../dbStrategy/database";
+import userRepository from "../repository/userRepository";
 
 class UserService {
-  public async create(req: Request, res: Response): Promise<Response> {
+  public async create(userData: {
+    name: string;
+    cpf: string;
+    birthDate: string;
+  }) {
     //formatando cpf
-    const formatCpf: string = req.body.cpf.replace(/\D/g, "");
+    const formatCpf: string = userData.cpf.replace(/\D/g, "");
+
     //validando se já existe cadastro
-    if (await UserService.existUser(formatCpf)) {
-      return res.status(422).send("invalido");
+    if (await this.existUser(formatCpf)) {
+      return { status: 422, send: "invalido" };
     }
+
     //validando cpf
-    if (!UserService.validCpf(formatCpf)) {
-      return res.status(422).send("CPF invalido");
+    if (!this.validCpf(formatCpf)) {
+      return { status: 422, send: "CPF invalido" };
     } else {
       //cadastro do usuario
-      await prisma.user.create({
-        data: { ...req.body, cpf: formatCpf },
-      });
-      return res.status(201).send("OK");
+      await userRepository.create({ ...userData, cpf: formatCpf });
+
+      return { status: 201, send: "OK" };
     }
   }
 
-  public async findAll(req: Request, res: Response): Promise<Response> {
-    const page = Number(req.query.page) || 1;
-    const size = Number(req.query.size) || 5;
+  public async findAll(page: Number, size: Number) {
+    const _page = Number(page) || 1;
+    const _size = Number(size) || 5;
 
-    const result = await prisma.user.findMany({
-      take: size,
-      skip: (page - 1) * size,
-    });
-    return res.json(result);
+    const result = await userRepository.findAll(_page, _size);
+
+    return { status: 200, send: result };
   }
 
-  public async findByCpf(req: Request, res: Response): Promise<Response> {
-    const formatCpf: string = req.params.cpf.replace(/\D/g, "");
+  public async findByCpf(cpf: string) {
+    const formatCpf: string = cpf.replace(/\D/g, "");
 
-    if (!(await UserService.existUser(formatCpf))) {
-      return res.status(404).send("Não encontrado");
+    if (!(await this.existUser(formatCpf))) {
+      return { status: 404, send: "Não encontrado" };
     } else {
-      const result = await prisma.user.findUnique({
-        where: { cpf: formatCpf },
-      });
-      return res.json(result);
+      const result = await userRepository.findByCpf(formatCpf);
+
+      return { status: 200, send: result };
     }
   }
 
-  static validCpf(cpf: string) {
+  private validCpf(cpf: string) {
     // cpf invalidos conhecidos
     const invalidCpfs = [
       "00000000000",
@@ -96,10 +97,8 @@ class UserService {
     }
   }
 
-  static async existUser(cpf: string) {
-    const result = await prisma.user.findUnique({
-      where: { cpf: cpf },
-    });
+  private async existUser(cpf: string) {
+    const result = await userRepository.findByCpf(cpf);
     if (result === null) return false;
     return true;
   }

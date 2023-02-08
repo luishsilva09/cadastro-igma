@@ -1,17 +1,23 @@
-import { Router } from "express";
 import userService from "../services/userService";
+import { Request, Response } from "express";
 
 class UserController {
-  router = Router();
-
-  constructor() {
-    this.initRoutes();
+  public async create(req: Request, res: Response): Promise<Response> {
+    const result = await userService.create(req.body);
+    return res.status(result.status).send(result.send);
   }
 
-  initRoutes() {
-    this.router.post("/users", userService.create);
-    this.router.get("/users/:cpf", userService.findByCpf);
-    this.router.get("/allUsers", userService.findAll);
+  public async findByCpf(req: Request, res: Response): Promise<Response> {
+    const result = await userService.findByCpf(req.params.cpf);
+    return res.status(result.status).send(result.send);
+  }
+
+  public async findAll(req: Request, res: Response): Promise<Response> {
+    const result = await userService.findAll(
+      Number(req.query.page),
+      Number(req.query.size)
+    );
+    return res.status(result.status).send(result.send);
   }
 }
 
