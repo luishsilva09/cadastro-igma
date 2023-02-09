@@ -15,4 +15,6 @@ model User {
   name String
   cpf String @unique
   birthDate String
+
+  @@map("users")
 }
