@@ -13,7 +13,9 @@
 
 # Descrição
 
-# Fatures
+Uma maneira simples de armazenar dados de seus clientes com validação de CPF.
+
+# Recursos
 
 - Criar cliente
 - validar CPF
@@ -94,28 +96,16 @@ Response:
 
 # Testes:
 
-To run this test, you will need to add the following environment variables to your .env.test file
+Para rodar os teste use um banco semparado para não ter problemas configure seu .env.test com as seguintes variaveis.
 
-`DATABASE_URL = postgres://UserName:Password@Hostname:5432/DatabaseName`
+`DATABASE_URL = postgres://UserName:Password@Hostname:5432/DatabaseName-teste`
 
 `PORT = number #recommended:4000`
 
-To run all test:
+Para rodar todos os testes:
 
 ```bash
     npm run test
-```
-
-To run unit test:
-
-```bash
-    npm run test:unit
-```
-
-To run integration test:
-
-```bash
-    npm run test:integration
 ```
 
 # Rodando no Docker
@@ -130,9 +120,9 @@ PORT=4000 //porta de uso da aplicação
 
 DATABASE_URL=postgres://postgres:postgres@db:5432/cadastro-igma
 
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=cadastro-igma
+POSTGRES_USER= postgres
+POSTGRES_PASSWORD= postgres
+POSTGRES_DB= cadastro-igma
 ```
 
 Subindo a aplicação:
@@ -159,12 +149,11 @@ Instale as dependencias:
 
 ```
 
-Configura e cria o banco de dados:
+Para rodar na produção:
 
 ```bash
-
-  npx prisma migrate dev
-
+    npm build
+    npm start
 ```
 
 Para rodar como desenvolvedor:
@@ -180,6 +169,12 @@ Para rodar esse projeto vão ser necessarias essas variaveis no .env
 `DATABASE_URL = postgres://UserName:Password@Hostname:5432/DatabaseName`
 
 `PORT = number #recommended:4000`
+
+`POSTGRES_USER=`
+
+`POSTGRES_PASSWORD=`
+
+`POSTGRES_DB=`
 
 # Autor
 
