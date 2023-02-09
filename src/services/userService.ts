@@ -1,11 +1,8 @@
+import User from "../interfaces/user";
 import userRepository from "../repository/userRepository";
 
 class UserService {
-  public async create(userData: {
-    name: string;
-    cpf: string;
-    birthDate: string;
-  }) {
+  public async create(userData: User) {
     //formatando cpf
     const formatCpf: string = userData.cpf.replace(/\D/g, "");
 
