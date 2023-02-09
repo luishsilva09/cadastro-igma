@@ -1,7 +1,7 @@
 import userRepository from "../../src/repository/userRepository";
-import UserService from "../../src/services/userService";
+import userService from "../../src/services/userService";
 
-describe("Teste unitario service de usuario", () => {
+describe("Unit test user service", () => {
   test("Create new user", async () => {
     const userData = {
       name: "luis",
@@ -14,7 +14,7 @@ describe("Teste unitario service de usuario", () => {
       .spyOn(userRepository, "findByCpf")
       .mockImplementationOnce((): any => null);
 
-    const res = await UserService.create(userData);
+    const res = await userService.create(userData);
 
     expect(res.status).toBe(201);
     expect(userRepository.findByCpf).toBeCalled();
@@ -30,7 +30,7 @@ describe("Teste unitario service de usuario", () => {
       .spyOn(userRepository, "findByCpf")
       .mockImplementation((): any => userData);
 
-    const res = await UserService.findByCpf(userData.cpf);
+    const res = await userService.findByCpf(userData.cpf);
 
     expect(res.send).not.toBe(null);
   });
@@ -44,7 +44,7 @@ describe("Teste unitario service de usuario", () => {
       .spyOn(userRepository, "findAll")
       .mockImplementation((): any => userData);
 
-    const res = await UserService.findAll(1, 5);
+    const res = await userService.findAll(1, 5);
 
     expect(res.send).not.toBe(null);
   });
@@ -60,7 +60,7 @@ describe("Teste unitario service de usuario", () => {
       .spyOn(userRepository, "findByCpf")
       .mockImplementationOnce((): any => null);
 
-    const res = await UserService.create(userData);
+    const res = await userService.create(userData);
 
     expect(res.status).toBe(422);
     expect(userRepository.findByCpf).toBeCalled();
